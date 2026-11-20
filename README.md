@@ -2,6 +2,8 @@
 
 Aplicação full stack para organizar finanças pessoais, com gestão de transações e categorias. Desafio da Pós-Graduação Full Stack da Rocketseat.
 
+<img width="1723" height="930" alt="Screenshot 2026-11-20 at 19 57 51" src="https://github.com/user-attachments/assets/0a358681-6b0c-46c6-be62-dff65212473f" />
+
 ## Estrutura
 
 - [`backend/`](backend/README.md): API GraphQL com TypeScript, Apollo Server, type-graphql, Prisma e SQLite
