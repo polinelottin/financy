@@ -1,4 +1,5 @@
 import { prisma } from "../database/prisma";
+import { monthRange } from "./month-range";
 
 export type TransactionInput = {
   description: string;
@@ -46,10 +47,7 @@ export async function listTransactions(userId: string, filters: TransactionFilte
     type,
     categoryId,
     description: search ? { contains: search } : undefined,
-    date:
-      month && year
-        ? { gte: new Date(Date.UTC(year, month - 1, 1)), lt: new Date(Date.UTC(year, month, 1)) }
-        : undefined,
+    date: month && year ? monthRange(month, year) : undefined,
   };
 
   const [items, total] = await Promise.all([

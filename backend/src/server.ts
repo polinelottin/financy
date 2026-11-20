@@ -7,11 +7,12 @@ import { buildSchema } from "type-graphql";
 import { authChecker, buildContext } from "./context";
 import { AuthResolver } from "./resolvers/auth-resolver";
 import { CategoryResolver } from "./resolvers/category-resolver";
+import { SummaryResolver } from "./resolvers/summary-resolver";
 import { TransactionResolver } from "./resolvers/transaction-resolver";
 
 async function main() {
   const schema = await buildSchema({
-    resolvers: [AuthResolver, CategoryResolver, TransactionResolver],
+    resolvers: [AuthResolver, CategoryResolver, SummaryResolver, TransactionResolver],
     authChecker,
   });
 
