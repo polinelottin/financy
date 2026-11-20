@@ -33,6 +33,16 @@ O seed cria uma conta com os dados do layout: `conta@teste.com` / `12345678`. Ro
 
 Crie a conta com a mutation `register` ou entre com `login`. As duas retornam um `token`, que deve ser enviado nas demais operações no header `Authorization: Bearer <token>`.
 
+## Recuperação de senha
+
+O projeto não envia e-mails. Ao pedir a recuperação pela tela "Recuperar senha", a API imprime o link de redefinição no terminal onde está rodando, por exemplo:
+
+```
+Link de redefinição de senha para conta@teste.com: http://localhost:5173/redefinir-senha?token=...
+```
+
+O link usa o `FRONTEND_URL` do `.env`, vale por 1 hora e só pode ser usado uma vez.
+
 ## Operações
 
 Valores monetários trafegam em centavos (`8950` = R$ 89,50). Cada usuário só vê e altera os próprios dados.
@@ -42,6 +52,7 @@ Valores monetários trafegam em centavos (`8950` = R$ 89,50). Cada usuário só 
 | `register`, `login` | mutation | Cria a conta ou entra, retornando token e usuário |
 | `me` | query | Usuário logado |
 | `updateProfile` | mutation | Altera o nome do usuário |
+| `requestPasswordReset`, `resetPassword` | mutation | Gera o link de redefinição e troca a senha com o token |
 | `transactions(filters)` | query | Lista paginada (10 por página) com busca, tipo, categoria e mês/ano |
 | `createTransaction`, `updateTransaction`, `deleteTransaction` | mutation | Gerencia transações |
 | `categories` | query | Categorias com quantidade e soma das transações |

@@ -23,7 +23,8 @@ async function main() {
   app.use("/graphql", cors(), express.json(), expressMiddleware(server, { context: buildContext }));
 
   const port = Number(process.env.PORT ?? 4000);
-  app.listen(port, () => {
+  app.listen(port, (error) => {
+    if (error) throw error;
     console.log(`Servidor rodando em http://localhost:${port}/graphql`);
   });
 }

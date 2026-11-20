@@ -30,6 +30,8 @@ A aplicação fica disponível em `http://localhost:5173`.
 |---|---|
 | `/` | Login (deslogado) ou Dashboard (logado) |
 | `/cadastro` | Criar conta |
+| `/recuperar-senha` | Pedir o link de redefinição de senha |
+| `/redefinir-senha?token=...` | Definir uma nova senha |
 | `/transacoes` | Listagem com filtros, paginação e modal de criar e editar |
 | `/categorias` | Grid de categorias com resumo e modal de criar e editar |
 | `/perfil` | Editar nome e sair da conta |

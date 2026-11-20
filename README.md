@@ -42,6 +42,7 @@ Acesse `http://localhost:5173` e entre com a conta de exemplo criada pelo seed: 
 ## Funcionalidades
 
 - Cadastro, login e edição do nome no perfil
+- Recuperação de senha (o link aparece no terminal da API, já que o projeto não envia e-mails)
 - Cada usuário vê e gerencia apenas as próprias transações e categorias
 - Transações: criar, editar, excluir e listar com busca, filtros por tipo, categoria e mês, e paginação
 - Categorias: criar, editar, excluir (bloqueado se houver transações) e listar com quantidade e total de transações

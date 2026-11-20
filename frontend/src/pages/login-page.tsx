@@ -72,17 +72,22 @@ export function LoginPage() {
           error={errors.password?.message}
           {...register("password")}
         />
-        <div className="flex items-center gap-2">
-          <Controller
-            control={control}
-            name="remember"
-            render={({ field }) => (
-              <Checkbox id="remember" checked={field.value} onCheckedChange={field.onChange} />
-            )}
-          />
-          <Label htmlFor="remember" className="font-normal text-gray-700">
-            Lembrar-me
-          </Label>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Controller
+              control={control}
+              name="remember"
+              render={({ field }) => (
+                <Checkbox id="remember" checked={field.value} onCheckedChange={field.onChange} />
+              )}
+            />
+            <Label htmlFor="remember" className="font-normal text-gray-700">
+              Lembrar-me
+            </Label>
+          </div>
+          <Link to="/recuperar-senha" className="text-sm font-medium text-brand-base hover:underline">
+            Recuperar senha
+          </Link>
         </div>
         {errors.root && <p className="text-center text-sm text-danger">{errors.root.message}</p>}
         <Button type="submit" disabled={isSubmitting} className="h-12 text-base">

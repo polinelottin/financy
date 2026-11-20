@@ -5,17 +5,13 @@ import { prisma } from "../database/prisma";
 type RegisterInput = { name: string; email: string; password: string };
 
 export async function register({ name, email, password }: RegisterInput) {
-  if (password.length < 8) {
-    throw new Error("A senha deve ter no mínimo 8 caracteres");
-  }
-
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     throw new Error("E-mail já cadastrado");
   }
 
   const user = await prisma.user.create({
-    data: { name, email, password: await bcrypt.hash(password, 10) },
+    data: { name, email, password: await hashPassword(password) },
   });
 
   return { token: createToken(user.id), user };
@@ -30,6 +26,14 @@ export async function login({ email, password }: LoginInput) {
   }
 
   return { token: createToken(user.id), user };
+}
+
+export function hashPassword(password: string) {
+  if (password.length < 8) {
+    throw new Error("A senha deve ter no mínimo 8 caracteres");
+  }
+
+  return bcrypt.hash(password, 10);
 }
 
 function createToken(userId: string) {

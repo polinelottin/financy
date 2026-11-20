@@ -3,6 +3,8 @@ import { useAuth } from "@/auth/auth-context";
 import { AppLayout } from "@/components/app-layout";
 import { CategoriesPage } from "@/pages/categories-page";
 import { DashboardPage } from "@/pages/dashboard-page";
+import { ForgotPasswordPage } from "@/pages/forgot-password-page";
+import { ResetPasswordPage } from "@/pages/reset-password-page";
 import { LoginPage } from "@/pages/login-page";
 import { ProfilePage } from "@/pages/profile-page";
 import { RegisterPage } from "@/pages/register-page";
@@ -25,6 +27,8 @@ export function App() {
           <>
             <Route index element={<LoginPage />} />
             <Route path="cadastro" element={<RegisterPage />} />
+            <Route path="recuperar-senha" element={<ForgotPasswordPage />} />
+            <Route path="redefinir-senha" element={<ResetPasswordPage />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" replace />} />
