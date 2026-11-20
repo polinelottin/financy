@@ -6,11 +6,12 @@ import { expressMiddleware } from "@as-integrations/express5";
 import { buildSchema } from "type-graphql";
 import { authChecker, buildContext } from "./context";
 import { AuthResolver } from "./resolvers/auth-resolver";
+import { CategoryResolver } from "./resolvers/category-resolver";
 import { TransactionResolver } from "./resolvers/transaction-resolver";
 
 async function main() {
   const schema = await buildSchema({
-    resolvers: [AuthResolver, TransactionResolver],
+    resolvers: [AuthResolver, CategoryResolver, TransactionResolver],
     authChecker,
   });
 
