@@ -19,7 +19,7 @@
     "cors": "2.8.6",
     "express": "5.3.0",
     "graphql": "16.15.0",
-    "graphql-scalars": "1.26.0",
+    "graphql-scalars": "2.0.1",
     "jsonwebtoken": "9.0.3",
     "reflect-metadata": "0.2.2",
     "type-graphql": "2.0.0-rc.3"
@@ -44,5 +44,9 @@
   },
   "engines": {
     "node": ">=26"
+  },
+  "overrides": {
+    "effect": "3.22.5",
+    "graphql-scalars": "$graphql-scalars"
   }
 }
