@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { cn } from "@/lib/utils";
+import { Avatar } from "./avatar";
 import { Logo } from "./logo";
 
 const ME = gql`
@@ -41,12 +42,8 @@ export function AppLayout() {
               </NavLink>
             ))}
           </nav>
-          <NavLink
-            to="/perfil"
-            aria-label="Perfil"
-            className="flex size-9 items-center justify-center rounded-full bg-gray-300 text-sm font-medium text-gray-800"
-          >
-            {initials(data?.me.name)}
+          <NavLink to="/perfil" aria-label="Perfil">
+            <Avatar name={data?.me.name} />
           </NavLink>
         </div>
       </header>
@@ -55,11 +52,4 @@ export function AppLayout() {
       </main>
     </div>
   );
-}
-
-function initials(name = "") {
-  const words = name.trim().split(/\s+/);
-  const first = words[0]?.[0] ?? "";
-  const last = words.length > 1 ? words[words.length - 1][0] : "";
-  return (first + last).toUpperCase();
 }

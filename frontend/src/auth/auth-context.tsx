@@ -4,7 +4,7 @@ import { getToken, removeToken, saveToken } from "./token";
 
 type AuthContextValue = {
   isAuthenticated: boolean;
-  signIn: (token: string) => void;
+  signIn: (token: string, remember?: boolean) => void;
   signOut: () => void;
 };
 
@@ -14,8 +14,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const client = useApolloClient();
   const [token, setToken] = useState(getToken);
 
-  function signIn(newToken: string) {
-    saveToken(newToken);
+  function signIn(newToken: string, remember = true) {
+    saveToken(newToken, remember);
     setToken(newToken);
   }
 
