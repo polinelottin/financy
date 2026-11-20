@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useMutation } from "@apollo/client/react";
 import { CircleArrowDown, CircleArrowUp, SquarePen, Trash } from "lucide-react";
 import { CategoryIcon, CategoryTag } from "@/components/category-badge";
+import { ConfirmDeleteDialog } from "@/components/confirm-delete-dialog";
 import { formatDate, formatTransactionAmount } from "@/lib/format";
 import { DELETE_TRANSACTION, type Transaction } from "./queries";
 
@@ -11,11 +13,29 @@ type TransactionsTableProps = {
 
 export function TransactionsTable({ transactions, onEdit }: TransactionsTableProps) {
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, { refetchQueries: "active" });
+  const [toDelete, setToDelete] = useState<Transaction | null>(null);
 
-  if (transactions.length === 0) {
-    return <p className="px-6 py-12 text-center text-gray-500">Nenhuma transação encontrada</p>;
-  }
+  return (
+    <>
+      {transactions.length === 0 ? (
+        <p className="px-6 py-12 text-center text-gray-500">Nenhuma transação encontrada</p>
+      ) : (
+        <TransactionRows transactions={transactions} onEdit={onEdit} onDelete={setToDelete} />
+      )}
+      <ConfirmDeleteDialog
+        open={Boolean(toDelete)}
+        onOpenChange={(open) => !open && setToDelete(null)}
+        title="Excluir transação"
+        description={`Tem certeza que deseja excluir "${toDelete?.description}"? Essa ação não pode ser desfeita.`}
+        onConfirm={() => deleteTransaction({ variables: { id: toDelete!.id } })}
+      />
+    </>
+  );
+}
 
+type TransactionRowsProps = TransactionsTableProps & { onDelete: (transaction: Transaction) => void };
+
+function TransactionRows({ transactions, onEdit, onDelete }: TransactionRowsProps) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -53,7 +73,7 @@ export function TransactionsTable({ transactions, onEdit }: TransactionsTablePro
                   <button
                     type="button"
                     aria-label="Excluir transação"
-                    onClick={() => deleteTransaction({ variables: { id: transaction.id } })}
+                    onClick={() => onDelete(transaction)}
                     className="flex size-8 items-center justify-center rounded-lg border bg-white text-danger hover:bg-gray-100"
                   >
                     <Trash className="size-4" />

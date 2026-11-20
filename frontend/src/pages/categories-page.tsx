@@ -2,6 +2,7 @@ import { createElement, useState, type ReactNode } from "react";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { ArrowUpDown, Plus, SquarePen, Tag, Trash } from "lucide-react";
 import { CategoryIcon, CategoryTag } from "@/components/category-badge";
+import { ConfirmDeleteDialog } from "@/components/confirm-delete-dialog";
 import { Button } from "@/components/ui/button";
 import { CategoryDialog } from "@/features/categories/category-dialog";
 import { CATEGORIES, DELETE_CATEGORY, type Category, type CategoryWithTotals } from "@/features/categories/queries";
@@ -13,19 +14,10 @@ export function CategoriesPage() {
   const { data } = useQuery<{ categories: CategoryWithTotals[] }>(CATEGORIES);
   const [deleteCategory] = useMutation(DELETE_CATEGORY, { refetchQueries: "active" });
   const [dialog, setDialog] = useState<{ open: boolean; category?: Category }>({ open: false });
-  const [deleteError, setDeleteError] = useState("");
+  const [toDelete, setToDelete] = useState<Category | null>(null);
 
   const categories = data?.categories ?? [];
   const summary = summarizeCategories(categories);
-
-  async function handleDelete(id: string) {
-    setDeleteError("");
-    try {
-      await deleteCategory({ variables: { id } });
-    } catch (error) {
-      setDeleteError((error as Error).message);
-    }
-  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -59,12 +51,6 @@ export function CategoriesPage() {
         />
       </div>
 
-      {deleteError && (
-        <p role="alert" className="rounded-lg border border-red-light bg-red-light px-4 py-3 text-sm text-red-dark">
-          {deleteError}
-        </p>
-      )}
-
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((category) => (
           <div key={category.id} className="flex flex-col gap-5 rounded-xl border bg-white p-6">
@@ -74,7 +60,7 @@ export function CategoriesPage() {
                 <button
                   type="button"
                   aria-label={`Excluir ${category.title}`}
-                  onClick={() => handleDelete(category.id)}
+                  onClick={() => setToDelete(category)}
                   className="flex size-8 items-center justify-center rounded-lg border bg-white text-danger hover:bg-gray-100"
                 >
                   <Trash className="size-4" />
@@ -102,6 +88,14 @@ export function CategoriesPage() {
           </div>
         ))}
       </div>
+
+      <ConfirmDeleteDialog
+        open={Boolean(toDelete)}
+        onOpenChange={(open) => !open && setToDelete(null)}
+        title="Excluir categoria"
+        description={`Tem certeza que deseja excluir "${toDelete?.title}"? Essa ação não pode ser desfeita.`}
+        onConfirm={() => deleteCategory({ variables: { id: toDelete!.id } })}
+      />
 
       <CategoryDialog
         open={dialog.open}
