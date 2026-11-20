@@ -24,4 +24,7 @@ const httpLink = new HttpLink({ uri: `${import.meta.env.VITE_BACKEND_URL}/graphq
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([expiredSessionLink, authLink, httpLink]),
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: { fetchPolicy: "cache-and-network" },
+  },
 });

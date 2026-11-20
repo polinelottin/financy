@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "dependencies": {
     "@apollo/client": "4.3.8",
@@ -16,10 +17,12 @@
     "@tailwindcss/vite": "4.3.5",
     "class-variance-authority": "0.7.1",
     "cn": "0.5.2",
+    "date-fns": "4.4.0",
     "graphql": "16.15.0",
     "lucide-react": "1.77.0",
     "radix-ui": "1.8.1",
     "react": "19.3.1",
+    "react-day-picker": "10.0.2",
     "react-dom": "19.3.1",
     "react-hook-form": "7.92.0",
     "react-router": "8.5.2",
@@ -36,7 +39,8 @@
     "@vitejs/plugin-react": "6.3.0",
     "oxlint": "1.94.0",
     "typescript": "7.0.2",
-    "vite": "8.3.8"
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
   },
   "allowScripts": {
     "fsevents": false

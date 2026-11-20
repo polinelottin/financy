@@ -17,18 +17,18 @@ const categories = [
 ];
 
 const transactions = [
-  { description: "Pagamento de Salário", amount: 425000, type: "INCOME", date: "2025-12-01", category: "Salário" },
-  { description: "Jantar no Restaurante", amount: 8950, type: "EXPENSE", date: "2025-11-30", category: "Alimentação" },
-  { description: "Posto de Gasolina", amount: 10000, type: "EXPENSE", date: "2025-11-29", category: "Transporte" },
-  { description: "Compras no Mercado", amount: 15680, type: "EXPENSE", date: "2025-11-28", category: "Mercado" },
-  { description: "Retorno de Investimento", amount: 34025, type: "INCOME", date: "2025-11-26", category: "Investimento" },
-  { description: "Aluguel", amount: 170000, type: "EXPENSE", date: "2025-11-26", category: "Utilidades" },
-  { description: "Freelance", amount: 250000, type: "INCOME", date: "2025-11-24", category: "Salário" },
-  { description: "Compras Jantar", amount: 15000, type: "EXPENSE", date: "2025-11-22", category: "Mercado" },
-  { description: "Cinema", amount: 8800, type: "EXPENSE", date: "2025-11-18", category: "Entretenimento" },
-  { description: "Pagamento de Salário", amount: 425000, type: "INCOME", date: "2025-11-01", category: "Salário" },
-  { description: "Uber", amount: 3250, type: "EXPENSE", date: "2025-10-30", category: "Transporte" },
-  { description: "Conta de Luz", amount: 18900, type: "EXPENSE", date: "2025-10-20", category: "Utilidades" },
+  { description: "Pagamento de Salário", amount: 425000, type: "INCOME", daysAgo: 0, category: "Salário" },
+  { description: "Jantar no Restaurante", amount: 8950, type: "EXPENSE", daysAgo: 1, category: "Alimentação" },
+  { description: "Posto de Gasolina", amount: 10000, type: "EXPENSE", daysAgo: 2, category: "Transporte" },
+  { description: "Compras no Mercado", amount: 15680, type: "EXPENSE", daysAgo: 3, category: "Mercado" },
+  { description: "Retorno de Investimento", amount: 34025, type: "INCOME", daysAgo: 5, category: "Investimento" },
+  { description: "Aluguel", amount: 170000, type: "EXPENSE", daysAgo: 5, category: "Utilidades" },
+  { description: "Freelance", amount: 250000, type: "INCOME", daysAgo: 7, category: "Salário" },
+  { description: "Compras Jantar", amount: 15000, type: "EXPENSE", daysAgo: 9, category: "Mercado" },
+  { description: "Cinema", amount: 8800, type: "EXPENSE", daysAgo: 13, category: "Entretenimento" },
+  { description: "Pagamento de Salário", amount: 425000, type: "INCOME", daysAgo: 30, category: "Salário" },
+  { description: "Uber", amount: 3250, type: "EXPENSE", daysAgo: 32, category: "Transporte" },
+  { description: "Conta de Luz", amount: 18900, type: "EXPENSE", daysAgo: 42, category: "Utilidades" },
 ] as const;
 
 async function main() {
@@ -41,15 +41,22 @@ async function main() {
     categoryIds.set(category.title, id);
   }
 
-  for (const { category, date, ...transaction } of transactions) {
+  for (const { category, daysAgo, ...transaction } of transactions) {
     await createTransaction(created.id, {
       ...transaction,
-      date: new Date(`${date}T12:00:00Z`),
+      date: dateDaysAgo(daysAgo),
       categoryId: categoryIds.get(category)!,
     });
   }
 
   console.log(`Seed concluído. Login: ${user.email} / ${user.password}`);
+}
+
+function dateDaysAgo(days: number) {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() - days);
+  date.setUTCHours(12, 0, 0, 0);
+  return date;
 }
 
 main().finally(() => prisma.$disconnect());
