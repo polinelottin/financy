@@ -24,3 +24,8 @@ A API fica disponível em `http://localhost:4000/graphql`.
 - `npm run dev`: servidor em modo de desenvolvimento, reiniciando a cada alteração
 - `npm run build`: compila para `dist/`
 - `npm start`: roda a versão compilada
+- `npm test`: roda os testes (usam um banco separado, `test.db`)
+
+## Autenticação
+
+Crie a conta com a mutation `register` ou entre com `login`. As duas retornam um `token`, que deve ser enviado nas demais operações no header `Authorization: Bearer <token>`.
